@@ -12,6 +12,7 @@ using SPMeta2.Utils;
 using SPMeta2.SSOM.ModelHosts;
 using SPMeta2.Exceptions;
 using System.Web.UI.WebControls.WebParts;
+using SPMeta2.SSOM.Services;
 
 namespace SPMeta2.SSOM.ModelHandlers
 {
@@ -315,23 +316,38 @@ namespace SPMeta2.SSOM.ModelHandlers
                 },
                 after =>
                 {
+                    var shouldUpdateItem = false;
+
+                    if (!string.IsNullOrEmpty(moduleFile.Title))
+                    {
+                        after.ListItemAllFields["Title"] = moduleFile.Title;
+                        shouldUpdateItem = true;
+                    }
+
                     if (!string.IsNullOrEmpty(moduleFile.ContentTypeId) ||
                         !string.IsNullOrEmpty(moduleFile.ContentTypeName))
                     {
                         var list = folder.ParentWeb.Lists[folder.ParentListId];
 
                         if (!string.IsNullOrEmpty(moduleFile.ContentTypeId))
-                            after.ListItemAllFields["ContentTypeId"] = LookupListContentTypeById(list, moduleFile.ContentTypeId);
+                            after.ListItemAllFields["ContentTypeId"] = ContentTypeLookupService.LookupListContentTypeById(list, moduleFile.ContentTypeId);
 
                         if (!string.IsNullOrEmpty(moduleFile.ContentTypeName))
-                            after.ListItemAllFields["ContentTypeId"] = LookupListContentTypeByName(list, moduleFile.ContentTypeName);
+                            after.ListItemAllFields["ContentTypeId"] = ContentTypeLookupService.LookupContentTypeByName(list, moduleFile.ContentTypeName);
 
-                        after.ListItemAllFields.Update();
+                        shouldUpdateItem = true;
                     }
 
                     if (moduleFile.DefaultValues.Count > 0)
                     {
-                        EnsureDefaultValues(after.ListItemAllFields, moduleFile);
+                        FieldLookupService.EnsureDefaultValues(after.ListItemAllFields, moduleFile.DefaultValues);
+                        shouldUpdateItem = true;
+                    }
+
+                    FieldLookupService.EnsureValues(after.ListItemAllFields, moduleFile.Values, true);
+
+                    if (shouldUpdateItem)
+                    {
                         after.ListItemAllFields.Update();
                     }
 
@@ -371,23 +387,9 @@ namespace SPMeta2.SSOM.ModelHandlers
             }
         }
 
-        protected SPContentTypeId LookupListContentTypeByName(SPList targetList, string name)
-        {
-            var targetContentType = targetList.ContentTypes
-                   .OfType<SPContentType>()
-                   .FirstOrDefault(ct => ct.Name.ToUpper() == name.ToUpper());
 
-            if (targetContentType == null)
-                throw new SPMeta2Exception(string.Format("Cannot find content type by name ['{0}'] in list: [{1}]",
-                    name, targetList.Title));
 
-            return targetContentType.Id;
-        }
 
-        protected SPContentTypeId LookupListContentTypeById(SPList targetList, string contentTypeId)
-        {
-            return targetList.ContentTypes.BestMatch(new SPContentTypeId(contentTypeId));
-        }
 
         #endregion
     }

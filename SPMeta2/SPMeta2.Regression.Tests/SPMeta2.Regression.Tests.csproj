@@ -68,10 +68,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  
-  
   <ItemGroup>
-   <Reference Condition="'$(Configuration)'=='CI-O365'" Include="Microsoft.SharePoint.Client, Version=16.1.3912.1204, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+    <Reference Condition="'$(Configuration)'=='CI-O365'" Include="Microsoft.SharePoint.Client, Version=16.1.3912.1204, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
       <HintPath>..\SPMeta2.Dependencies\SharePoint\O365 - 16.1.3912.1204\CSOM\Microsoft.SharePoint.Client.dll</HintPath>
       <Private>True</Private>
@@ -86,7 +84,6 @@
       <HintPath>..\SPMeta2.Dependencies\SharePoint\O365 - 16.1.3912.1204\CSOM\Microsoft.SharePoint.Client.Publishing.dll</HintPath>
       <Private>True</Private>
     </Reference>
-	
     <Reference Condition="'$(Configuration)'=='CI-O365'" Include="Microsoft.SharePoint.Client.Runtime, Version=16.1.3912.1204, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
       <HintPath>..\SPMeta2.Dependencies\SharePoint\O365 - 16.1.3912.1204\CSOM\Microsoft.SharePoint.Client.Runtime.dll</HintPath>
@@ -121,7 +118,6 @@
       <SpecificVersion>True</SpecificVersion>
       <HintPath>..\SPMeta2.Dependencies\SharePoint\O365 - 16.1.3912.1204\CSOM\Microsoft.SharePoint.Client.WorkflowServices.dll</HintPath>
     </Reference>
-  
     <Reference Condition="'$(Configuration)'=='CI-CSOM2013' Or '$(Configuration)'=='Debug'" Include="Microsoft.SharePoint.Client, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
       <HintPath>..\SPMeta2.Dependencies\SharePoint\SP2013 - 15.0.4569.1000\CSOM\Microsoft.SharePoint.Client.dll</HintPath>
@@ -171,7 +167,6 @@
       <SpecificVersion>True</SpecificVersion>
       <HintPath>..\SPMeta2.Dependencies\SharePoint\SP2013 - 15.0.4569.1000\CSOM\Microsoft.SharePoint.Client.WorkflowServices.dll</HintPath>
     </Reference>
-   
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
@@ -239,6 +234,7 @@
     <Compile Include="Impl\RegressionAPI\RegressionAPITests.cs" />
     <Compile Include="Impl\Reports\DefinitionReportTests.cs" />
     <Compile Include="Impl\Scenarios\ComposedLookItemLinkScenariousTest.cs" />
+    <Compile Include="Impl\Scenarios\MetadataNavigationSettingsScenarios.cs" />
     <Compile Include="Impl\Scenarios\ManagedPropertiesScenarios.cs" />
     <Compile Include="Impl\Scenarios\SupportedUICultureScenariousTest.cs" />
     <Compile Include="Impl\Scenarios\AppScenariousTest.cs" />
@@ -291,12 +287,14 @@
     <Compile Include="Impl\Scenarios\Webparts\ContentEditorWebPartScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\Webparts\XsltListViewWebPartScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\WebNavigationSettingsScenariosTest.cs" />
+    <Compile Include="Impl\Scenarios\SearchSettingsScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\WelcomePageScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\WikiPageScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\WebpartScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\SecurityScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\WebConfigModificationScenariosTest.cs" />
     <Compile Include="Impl\Scenarios\WebScenariosTest.cs" />
+    <Compile Include="Impl\Services\DefaultRequiredPropertyValidationServiceTests.cs" />
     <Compile Include="Impl\Services\DefaultFieldInternalNamePropertyValidationServiceTests.cs" />
     <Compile Include="Impl\Services\DefaultNotAbsoluteUrlPropertiesValidationServiceTests.cs" />
     <Compile Include="Impl\Services\DefaultVersionBasedPropertiesValidationServiceTests.cs" />
@@ -310,6 +308,11 @@
     <Compile Include="Impl\Validation\PublishingPageLayoutValidationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\SPMeta2RegresionTestBase.cs" />
+    <Compile Include="Prototypes\RItemValues.cs" />
+    <Compile Include="Services\ExpectUpdateServices\ExpectUpdateAsToolbarTypeService.cs" />
+    <Compile Include="Services\ExpectUpdateServices\ExpectUpdateAsChoiceFieldEditFormatService.cs" />
+    <Compile Include="Services\ExpectUpdateServices\ExpectUpdateAsLookupFieldService.cs" />
+    <Compile Include="Services\ExpectUpdateServices\ExpectUpdateAsViewScopeService.cs" />
     <Compile Include="Services\ExpectUpdateServices\ExpectUpdateAsRichTextModeService.cs" />
     <Compile Include="Services\ExpectUpdateServices\ExpectUpdateAsServerRelativeUrlService.cs" />
     <Compile Include="Services\ExpectUpdateServices\ExpectUpdateAsXsltListViewXslLinkUrlService.cs" />
@@ -383,6 +386,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll">
+      <Link>CsQuery.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\SPMeta2.Containers.CSOM\bin\Debug\SPMeta2.Containers.CSOM.dll">
       <Link>SPMeta2.Containers.CSOM.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -510,6 +517,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

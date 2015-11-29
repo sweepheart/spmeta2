@@ -217,6 +217,7 @@
     <Compile Include="Impl\ModelHandlers\CSOMSandboxSolutionModelHandlerTests.cs" />
     <Compile Include="Impl\Services\Base\TokenReplacementServiceTestBase.cs" />
     <Compile Include="Impl\Services\ClientRuntimeContextServiceBaseTests.cs" />
+    <Compile Include="Impl\Services\ValidationServiceTests.cs" />
     <Compile Include="Impl\Services\SSOMTokenReplacementServiceTests.cs" />
     <Compile Include="Impl\Services\CSOMTokenReplacementServiceTests.cs" />
     <Compile Include="Impl\Services\ProvisionServiceTests.cs" />
@@ -330,6 +331,9 @@
       <Link>Microsoft.SharePoint.Client.WorkflowServices.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

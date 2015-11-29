@@ -36,8 +36,6 @@ namespace SPMeta2.Regression.Tests.Base
 
         public SPMeta2RegresionTestBase()
         {
-
-
             ModelServiceBase.OnResolveNullModelHandler = (node => new EmptyModelhandler());
 
             RegressionService.EnableDefinitionProvision = true;
@@ -55,7 +53,7 @@ namespace SPMeta2.Regression.Tests.Base
             TestOptions.EnableWebApplicationDefinitionTest = false;
             TestOptions.EnableSerializeDeserializeAndStillDeployTests = false;
 
-
+            TestOptions.EnablWebConfigModificationTest = false;
         }
 
         #endregion
@@ -107,6 +105,8 @@ namespace SPMeta2.Regression.Tests.Base
 
             public bool EnableWebApplicationDefinitionTest { get; set; }
             public bool EnableSerializeDeserializeAndStillDeployTests { get; set; }
+
+            public bool EnablWebConfigModificationTest { get; set; }
         }
 
         #endregion

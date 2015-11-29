@@ -50,6 +50,17 @@ namespace SPMeta2.Definitions.Webparts
 
         [ExpectValidation]
         [DataMember]
+        [SiteCollectionTokenCapability]
+        [WebTokenCapability]
+        public string WebUrl { get; set; }
+
+        [ExpectValidation]
+        [DataMember]
+        public Guid? WebId { get; set; }
+
+
+        [ExpectValidation]
+        [DataMember]
         public string ViewName { get; set; }
 
         [ExpectValidation]
@@ -59,6 +70,18 @@ namespace SPMeta2.Definitions.Webparts
         [ExpectValidation]
         [DataMember]
         public string JSLink { get; set; }
+
+        [ExpectValidation]
+        [ExpectUpdatAsToolbarType]
+        [ExpectNullable]
+        [DataMember]
+        public string Toolbar { get; set; }
+
+        [ExpectValidation]
+        [ExpectUpdate]
+        [ExpectNullable]
+        [DataMember]
+        public bool? ToolbarShowAlways { get; set; }
 
         [ExpectUpdate]
         [ExpectValidation]

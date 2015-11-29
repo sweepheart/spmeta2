@@ -10,7 +10,17 @@ namespace SPMeta2.Attributes.Regression
 
     }
 
+    public class ExpectUpdatAsToolbarType : ExpectUpdate
+    {
+
+    }
+
     public class ExpectUpdateAsRichTextMode : ExpectUpdate
+    {
+
+    }
+
+    public class ExpectUpdateAsChoiceFieldEditFormat : ExpectUpdate
     {
 
     }
@@ -71,10 +81,21 @@ namespace SPMeta2.Attributes.Regression
 
     }
 
+    public class ExpectUpdateAsLookupField : ExpectUpdate
+    {
+
+    }
+
     public class ExpectUpdateAsChromeState : ExpectUpdate
     {
 
     }
+
+    public class ExpectUpdateAsViewScope : ExpectUpdate
+    {
+
+    }
+
     public class ExpectUpdateAsChromeType : ExpectUpdate
     {
 

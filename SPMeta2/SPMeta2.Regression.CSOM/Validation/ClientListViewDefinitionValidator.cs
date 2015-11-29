@@ -31,6 +31,7 @@ namespace SPMeta2.Regression.CSOM.Validation
                 o => o.ViewQuery,
                 o => o.RowLimit,
                 o => o.Paged,
+                o => o.Scope,
                 o => o.Hidden,
                 o => o.JSLink,
                 o => o.ServerRelativeUrl,
@@ -51,6 +52,31 @@ namespace SPMeta2.Regression.CSOM.Validation
                 //.ShouldBeEqual(m => m.Query, o => o.ViewQuery)
                                           .ShouldBeEqual(m => m.RowLimit, o => (int)o.RowLimit)
                                           .ShouldBeEqual(m => m.IsPaged, o => o.Paged);
+
+            if (!string.IsNullOrEmpty(definition.Scope))
+            {
+                assert.ShouldBeEqual((p, s, d) =>
+                {
+                    var srcProp = s.GetExpressionValue(def => def.Scope);
+                    var dstProp = d.GetExpressionValue(o => o.Scope);
+
+                    var scopeValue = ListViewScopeTypesConvertService.NormilizeValueToCSOMType(definition.Scope);
+
+                    var isValid = scopeValue == d.Scope.ToString();
+
+                    return new PropertyValidationResult
+                    {
+                        Tag = p.Tag,
+                        Src = srcProp,
+                        Dst = dstProp,
+                        IsValid = isValid
+                    };
+                });
+            }
+            else
+            {
+                assert.SkipProperty(m => m.Scope);
+            }
 
             if (!string.IsNullOrEmpty(definition.ViewData))
             {
@@ -281,9 +307,9 @@ namespace SPMeta2.Regression.CSOM.Validation
 
     internal static class ViewDefault
     {
-        //public static bool IsDefaul(this View view)
-        //{
-        //    return view.DefaultView.DefaultView.ID == view.Id;
-        //}
+        public static string GetScope(this View view)
+        {
+            return view.Scope.ToString();
+        }
     }
 }
